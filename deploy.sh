@@ -23,7 +23,7 @@ echo "************************************"
 cf add-plugin-repo bluemix http://plugins.ng.bluemix.net/
 cf install-plugin active-deploy -r bluemix -f
 
-appcnt=`cat cfapps|grep ${CF_APP}| wc -l`
+appcnt=`cf apps|grep ${CF_APP}| wc -l`
 if [ $appcnt -gt 1 ]; then
 echo "***********************************"
 echo "*** cleaning old or stopped app ***"
