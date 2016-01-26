@@ -21,7 +21,7 @@ echo "*** Install Active Deploy Plugin ***"
 echo "************************************"
 
 cf add-plugin-repo bluemix http://plugins.ng.bluemix.net/
-cf install-plugin active-deploy -r bluemix
+cf install-plugin active-deploy -r bluemix -f
 
 appcnt=`cat cfapps|grep ${CF_APP}| wc -l`
 if [ $appcnt -gt 1 ]; then
