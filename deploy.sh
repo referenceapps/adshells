@@ -7,27 +7,27 @@ echo ----$count-------
 #./bin/cf install-plugin active-deploy -r bluemix 
 #./test.sh
 
-echo *******************************
-echo ***  Upgrade CF CLI             ***
-echo *******************************
+echo "*******************************"
+echo "***  Upgrade CF CLI         ***"
+echo "*******************************"
 
 mkdir /tmp/cf
-wget -O /tmp/cf$$.tgz 'https://cli.run.pivotal.io/stable release=linux64-binary&version=6.13.0&source=github-rel'
+wget -O /tmp/cf$$.tgz 'https://cli.run.pivotal.io/stable?release=linux64-binary&version=6.13.0&source=github-rel'
 tar -C /tmp/cf -xzf /tmp/cf$$.tgz
 export PATH=/tmp/cf:$PATH
 
-echo ***********************************
-echo *** Install Active Deploy Plugin ***
-echo ***********************************
+echo "************************************"
+echo "*** Install Active Deploy Plugin ***"
+echo "************************************"
 
 cf add-plugin-repo bluemix http://plugins.ng.bluemix.net/
 cf install-plugin active-deploy -r bluemix
 
 appcnt=`cat cfapps|grep ${CF_APP}| wc -l`
 if [ $appcnt -gt 1 ]; then
-echo ***********************************
-echo *** cleaning old or stopped app ***
-echo ***********************************
+echo "***********************************"
+echo "*** cleaning old or stopped app ***"
+echo "***********************************"
  
 cf apps | grep ${CF_APP} |awk -v cfapp=${CF_APP} '
 BEGIN{lv=-1; lapp=length(cfapp); lapp++}
@@ -104,17 +104,17 @@ echo "**   ENTERING ACTIVE DEPLOY            **"
 echo "*****************************************"
 routeflag=" --no-route"
 cf push ${CF_APP}${count}${routeflag} -m 256MB
-./bin/cf active-deploy-create $old $new --rampup 1m --test 1m --rampdown 1m -l ${CF_APP}_deploy
+cf active-deploy-create $old $new --rampup 1m --test 1m --rampdown 1m -l ${CF_APP}_deploy
 sleep 240
 # show the status of completed deployment
-./bin/cf active-deploy-show ${CF_APP}_deploy
-./bin/cf apps
+cf active-deploy-show ${CF_APP}_deploy
+cf apps
 
 # delete apps
-./bin/cf delete -f $old
+cf delete -f $old
 
 # delete deployment
-./bin/cf active-deploy-delete ${CF_APP}_deploy
+cf active-deploy-delete ${CF_APP}_deploy
 fi
 fi
 
