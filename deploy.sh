@@ -104,17 +104,17 @@ echo "**   ENTERING ACTIVE DEPLOY            **"
 echo "*****************************************"
 routeflag=" --no-route"
 cf push ${CF_APP}${count}${routeflag} -m 256MB
-/tmp/cf/cf active-deploy-create $old $new --rampup 1m --test 1m --rampdown 1m -l ${CF_APP}_deploy
+/tmp/newcf/cf active-deploy-create $old $new --rampup 1m --test 1m --rampdown 1m -l ${CF_APP}_deploy
 sleep 240
 # show the status of completed deployment
-/tmp/cf/cf active-deploy-show ${CF_APP}_deploy
+/tmp/newcf/cf active-deploy-show ${CF_APP}_deploy
 cf apps
 
 # delete apps
 cf delete -f $old
 
 # delete deployment
-/tmp/cf/cf active-deploy-delete ${CF_APP}_deploy
+/tmp/newcf/cf active-deploy-delete ${CF_APP}_deploy
 fi
 fi
 
