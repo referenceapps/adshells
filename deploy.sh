@@ -94,6 +94,8 @@ fi
 
 export new=${CF_APP}${count}
 export old=`cf apps | grep ${CF_APP}|awk '{print $1}'`
+echo "new --> $new"
+echo "old --> $old"
 if [ $old == "" ] ; then
 echo "old not exist"
 cf push ${CF_APP}${count} -m 256MB -n ${CF_APP}
@@ -115,6 +117,8 @@ cf delete -f $old
 
 # delete deployment
 /tmp/newcf/cf active-deploy-delete ${CF_APP}_deploy
+else
+echo "$new is same as $old: NNOTHING TO DO"
 fi
 fi
 
